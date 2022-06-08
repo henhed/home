@@ -17,7 +17,17 @@
   (defvar php-mode-map)
 
   (c-set-style "php")
-  (setq-local flycheck-phpcs-standard "PSR2")
+  ;; (setq-local flycheck-phpcs-standard "Magento2")
+  ;; (setq-local flycheck-phpcs-standard "PSR2")
+
+  (require 'dap-php)
+  ;; M-x treemacs-toggle-fixed-width
+
+  (define-key php-mode-map (kbd "<f5>") 'dap-continue)
+  (define-key php-mode-map (kbd "<f9>") 'dap-breakpoint-toggle)
+  (define-key php-mode-map (kbd "<f10>") 'dap-next)
+  (define-key php-mode-map (kbd "<f11>") 'dap-step-in)
+  (define-key php-mode-map (kbd "<f12>") 'dap-step-out)
 
   ;; AC-PHP
   (require 'ac-php)
@@ -28,10 +38,11 @@
 
   ;; Modes
   (auto-complete-mode t)
-  (global-flycheck-mode t)
+  ;; (global-flycheck-mode t)
   (yas-global-mode t)
   (eldoc-mode t))
 
+(use-package dap-mode :ensure t :defer 1)
 
 (use-package php-mode
   :ensure t
@@ -40,9 +51,17 @@
   (add-hook 'php-mode-hook 'my-php-mode-hook))
 
 (use-package ac-php :ensure t :defer 1)
-(use-package geben :ensure t :defer 1)
+;; (use-package geben :ensure t :defer 1)
 (use-package flycheck :ensure t :defer 1)
 (use-package yasnippet :ensure t :defer 1)
 
 (provide 'init-php)
 ;;; init-php.el ends here
+
+
+;; ;; .dir-locals.el
+;; ((php-mode . (
+;;        (eval . (set (make-local-variable 'my-project-path) (locate-dominating-file default-directory ".dir-locals.el")))
+;;               (flycheck-phpcs-standard-dir . my-project-path)
+;;               (eval . (setq flycheck-phpcs-standard (concat my-project-path "/ruleset.xml")))
+;;               )))
